@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Casa Textil | Prototipo de ecommerce</title>
+<style>
+:root{--ink:#24342d;--muted:#6f7f76;--green:#516b57;--green2:#e5ebe3;--beige:#efe8db;--base:#f8f6f0;--white:#fff;--line:#dde2da;--soft:#f1efe7;--accent:#8fa58e;--warn:#f5ecdb;--warnText:#89623f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--base);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}a{text-decoration:none;color:inherit}button,input,select{font:inherit}button{cursor:pointer}img{max-width:100%}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d8a46e;outline-offset:3px}
+.notice{background:#30473c;color:#fff;padding:10px 5%;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12px}.notice .links{display:flex;gap:16px;flex-wrap:wrap}.notice a{opacity:.95}
+.navbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding:18px 5%;border-bottom:1px solid #e8ece5}.brand{font-weight:800;font-size:24px;letter-spacing:3px}.brand span{display:block;font-weight:400;font-size:10px;letter-spacing:2px;text-align:center;color:#738378;margin-top:3px}.mainnav{display:flex;align-items:center;gap:22px;justify-content:center;font-size:13px;color:#506156;flex-wrap:wrap}.menu{position:relative}.menu-btn,.ghost,.cart-btn,.search-btn,.chip,.faq-btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-size:13px;color:var(--ink)}.ghost{border:none;background:none;padding:10px 6px;color:#5a6a60}.cart-btn{padding-inline:16px}.cart-counter{background:var(--green);color:#fff;border-radius:999px;padding:3px 8px;margin-left:8px;font-size:12px}.dropdown{display:none;position:absolute;top:42px;left:0;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 35px rgba(23,32,27,.09);padding:16px;min-width:320px}.dropdown.open{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}.dropdown h4{margin:0 0 10px;font-size:13px;color:#496152}.dropdown a{display:block;font-size:12px;color:#66776d;margin:6px 0}
+.nav-right{display:flex;align-items:center;gap:10px}.search-inline{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fbfcfa;border-radius:999px;padding:6px 8px 6px 14px;min-width:320px}.search-inline input{border:none;outline:none;background:transparent;flex:1;font-size:13px;color:var(--ink)}.search-btn{background:var(--green);color:#fff;border-color:var(--green);padding:8px 14px}
+.hero{display:grid;grid-template-columns:54% 46%;background:linear-gradient(110deg,#eaebe2,#efe6d7)}.hero-copy{padding:60px 6% 54px 10%;align-self:center}.eyebrow{font-size:11px;font-weight:700;letter-spacing:2.4px;color:#759077;text-transform:uppercase}.hero h1,.section h2,.cta h3,.faq h3{font:normal 50px Georgia,serif;line-height:1.08;margin:14px 0 16px;letter-spacing:-1.5px}.hero p{color:#5d6b62;line-height:1.65;max-width:490px;font-size:15px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.primary{background:var(--green);color:#fff;border:none;padding:14px 22px;border-radius:6px;font-size:13px;font-weight:700}.secondary{background:#fff;border:1px solid var(--line);color:var(--ink);padding:14px 22px;border-radius:6px;font-size:13px;font-weight:700}
+.hero-search{margin-top:22px;max-width:560px;background:#fff;border-radius:14px;padding:14px;border:1px solid #e1e7dd;box-shadow:0 12px 28px rgba(38,53,47,.06)}.hero-search strong{display:block;font-size:14px;margin-bottom:8px}.hero-search .search-inline{min-width:unset;border-radius:12px;padding:8px 10px 8px 14px}.hero-search small{display:block;margin-top:8px;color:#819085;font-size:11px}
+.hero-art{position:relative;min-height:430px;overflow:hidden}.sun{position:absolute;right:14%;top:9%;width:110px;height:110px;border-radius:50%;background:#fbf5d7;filter:blur(14px);opacity:.72}.window{position:absolute;top:26px;right:10%;width:39%;height:59%;border:12px solid #f8f4ea;background:linear-gradient(120deg,#d7dfd9,#f6f1e8);box-shadow:0 10px 28px rgba(90,96,85,.12)}.window:after{content:"";position:absolute;top:0;bottom:0;left:48%;width:8px;background:#f8f4ea}.headboard{position:absolute;bottom:26%;left:10%;width:70%;height:32%;background:#b9a595;border-radius:85px 85px 0 0}.bed-frame{position:absolute;bottom:7%;left:8%;width:77%;height:33%;background:#9d8a79;border-radius:26px 26px 8px 8px}.mattress{position:absolute;bottom:17%;left:7%;width:80%;height:24%;background:#fbf8f0;border-radius:18px 18px 28px 28px}.duvet{position:absolute;bottom:7%;left:6%;width:83%;height:25%;background:linear-gradient(135deg,#d0d4c7,#eadfcd);border-radius:18px 18px 12px 12px;box-shadow:inset 0 -18px 24px rgba(137,144,122,.24)}.pillow{position:absolute;bottom:32%;left:23%;width:19%;height:13%;background:#fdfbf4;border-radius:18px;transform:rotate(-8deg)}.pillow.b{left:49%;transform:rotate(8deg);background:#efebe2}.throw{position:absolute;bottom:8%;right:14%;width:24%;height:17%;background:repeating-linear-gradient(140deg,#b8bdab,#b8bdab 7px,#c6ccb9 8px,#b8bdab 11px);border-radius:12px;transform:rotate(-11deg)}
+.service{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:20px 5%;background:#fff;border-bottom:1px solid #e8ece4}.service-card{background:#fafbf8;border:1px solid #e3e8e0;border-radius:14px;padding:16px;text-align:center}.service-card .icon{font-size:24px;display:block;margin-bottom:8px}.service-card strong{font-size:14px}.service-card small{display:block;color:#7c897f;margin-top:6px;line-height:1.4}
+.section{padding:48px 5%}.section-top{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:24px}.section h2{font-size:34px;margin:6px 0;color:#31443a}.muted{color:#7c887d;font-size:14px;line-height:1.55}
+.buyflow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.step{background:#fff;border:1px solid #e3e8e1;border-radius:18px;padding:22px;box-shadow:0 10px 24px rgba(29,47,37,.04);position:relative}.step-badge{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:14px;background:var(--green2);font-size:26px;margin-bottom:14px}.step h3{margin:0 0 10px;font-size:21px;color:#335044}.step p{margin:0;color:#728278;line-height:1.55;font-size:14px}.step .n{position:absolute;top:18px;right:18px;font-size:13px;color:#7b897f;font-weight:700}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.cat-card{background:#fff;border:1px solid #e4e8e1;border-radius:18px;overflow:hidden;box-shadow:0 10px 24px rgba(29,47,37,.04)}.cat-top{padding:18px 18px 10px;background:linear-gradient(135deg,#e9eee8,#efe5d7)}.cat-card h3{margin:0;font:normal 28px Georgia,serif}.cat-card p{margin:8px 0 0;color:#63746b;font-size:13px;line-height:1.5}.cat-list{padding:14px 18px 20px}.cat-list a{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px dashed #e4e6de;font-size:14px;color:#41554a}.cat-list a:last-child{border-bottom:none}
+.filterbar{display:flex;gap:10px;flex-wrap:wrap}.chip{background:transparent;padding:10px 15px}.chip.active{background:#e3e9e0;border-color:#afbaac;color:#2f4b3d}.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.product{background:#fff;border:1px solid #e6eae3;border-radius:12px;overflow:hidden;box-shadow:0 10px 24px rgba(31,48,39,.05)}.visual{height:215px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#e8e8dd}.visual:after{content:"";position:absolute;top:-30%;right:-22%;width:70%;height:150%;transform:rotate(29deg);background:rgba(255,255,255,.2)}.scene{position:relative;width:70%;height:62%;filter:drop-shadow(0 14px 13px rgba(84,89,80,.28))}.scene .main{position:absolute;inset:10% 3% 0;border-radius:14px;background:#fbf7ef;box-shadow:inset 0 -19px 18px rgba(179,171,148,.25);transform:perspective(150px) rotateX(13deg)}.scene .stripe{position:absolute;inset:45% 2% 5%;border-radius:8px;background:repeating-linear-gradient(20deg,#9dae9c,#9dae9c 8px,#a7b7a5 9px,#9dae9c 14px);opacity:.85}.scene .top{position:absolute;top:0;left:20%;width:28%;height:34%;background:#fffff7;border-radius:14px;transform:rotate(-12deg)}.scene .top.two{left:51%;transform:rotate(8deg)}.visual.towels{background:#e2e7e1}.towels .scene .main{inset:50% 3% 3%;background:#b6cab4;border-radius:9px;transform:rotate(-3deg)}.towels .scene .stripe{inset:22% 12% 37%;background:#e5e1d4;border-radius:8px;transform:rotate(6deg)}.towels .scene .top{inset:2% 18% 57%;width:auto;height:auto;background:#f5f2e9;transform:rotate(-1deg)}.towels .scene .top.two{inset:unset;left:14%;bottom:3%;width:80%;height:24%;background:#b6cab4;transform:rotate(3deg)}.visual.curtains{background:#ece2d5}.curtains .scene .main{inset:0 20%;background:repeating-linear-gradient(90deg,#e2d2bd,#efe5d4 10%,#ded1bc 20%);border-radius:4px;transform:skew(-2deg)}.curtains .scene .stripe,.curtains .scene .top{display:none}.visual.pillowprod{background:#e2e3d7}.pillowprod .scene .main{inset:11% 17%;border-radius:24px;background:#eee9dd;transform:rotate(-10deg)}.pillowprod .scene .stripe{inset:32% 18% 13%;border-radius:23px;background:#d3d4c1;transform:rotate(11deg)}.pillowprod .scene .top{display:none}.visual.blanket{background:#e5e1d6}.blanket .scene .main{inset:8% 14%;background:#a9b49f;border-radius:13px;transform:rotate(-7deg)}.blanket .scene .stripe{inset:35% 12% 9%;background:repeating-linear-gradient(30deg,#c3c9b5,#c3c9b5 5px,#b8c4b0 8px);transform:rotate(4deg)}.blanket .scene .top{display:none}.ribbon{position:absolute;top:13px;left:13px;background:rgba(255,254,240,.9);padding:7px 9px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.6px;color:#506657}.prod-info{padding:16px}.prod-title{font-size:14px;font-weight:700;margin:0 0 8px}.meta{font-size:11px;color:#78867c;margin-bottom:7px}.prod-desc{font-size:12px;color:#7f8b81;line-height:1.5;min-height:36px}.price-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:14px}.price{font-size:18px;font-weight:700}.add{border:1px solid #a2b3a3;color:#355245;background:#f7fbf7;padding:10px 13px;border-radius:6px;font-size:12px;font-weight:700}
+.faq-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}.faq-box,.contact-box,.cta{background:#fff;border:1px solid #e4e8e1;border-radius:18px;padding:24px;box-shadow:0 10px 24px rgba(31,48,39,.04)}.faq-box details{border-top:1px solid #ecefe8;padding:14px 0}.faq-box details:first-of-type{border-top:none;padding-top:0}.faq-box summary{font-weight:700;cursor:pointer}.faq-box p,.contact-box p,.cta p{color:#728278;line-height:1.6;font-size:14px}.contact-box ul{margin:12px 0 0 0;padding-left:18px;color:#5e6d63;line-height:1.8}.cta{background:linear-gradient(135deg,#ebeee8,#f1e6d8)}.cta h3{font-size:32px;margin-top:0}
+.footer{background:#274031;color:#e8efe8;padding:30px 5%;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}.footer strong{font:normal 24px Georgia,serif}.footer p,.footer a{font-size:12px;color:#d5ddd5;opacity:.95}.disclaimer{background:var(--warn);padding:10px 16px;color:var(--warnText);font-size:11px;text-align:center;border-top:1px solid #e7d7c5}
+.veil{position:fixed;inset:0;background:rgba(22,41,30,.78);display:none;z-index:40}.veil.open{display:block}.drawer{position:fixed;top:0;right:0;width:min(440px,100%);height:100vh;background:#fff;transform:translateX(105%);transition:.25s ease;z-index:41;display:flex;flex-direction:column;box-shadow:-9px 0 25px rgba(0,0,0,.18)}.drawer.open{transform:translateX(0)}.drawer-head{padding:24px 24px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}.drawer-head h3{margin:0;font:normal 28px Georgia,serif}.close{border:none;background:none;font-size:28px;color:#526358}.drawer-items{padding:14px 24px;overflow:auto;flex:1}.cartline{padding:16px 0;border-bottom:1px solid #eef0eb;display:flex;align-items:center;gap:12px}.mini{width:58px;height:60px;border-radius:8px;background:#e5e8e0;display:flex;align-items:center;justify-content:center;color:#8ca08b;font:normal 25px Georgia,serif}.cartline .data{flex:1}.cartline b{font-size:13px}.cartline small{display:block;color:#829085;margin-top:6px}.qty{display:flex;align-items:center;gap:9px}.qty button{border:1px solid #d9e0d7;background:#fff;border-radius:4px;padding:2px 7px}.drawer-bottom{padding:18px 24px 26px;border-top:1px solid var(--line)}.totals{display:flex;justify-content:space-between;font-size:15px;margin:8px 0}.block{display:block;width:100%;margin-top:12px}.fine{color:#7d897f;font-size:11px;line-height:1.55}.empty{color:#77857b;font-size:14px}
+.checkout{position:fixed;z-index:50;inset:5vh max(10px,calc((100vw - 980px)/2));height:90vh;background:#fbfaf7;border-radius:14px;display:none;overflow:hidden;box-shadow:0 22px 80px rgba(17,17,17,.42)}.checkout.open{display:flex;flex-direction:column}.checkout-header{background:#fff;border-bottom:1px solid #eaeee6;padding:20px 28px;display:flex;justify-content:space-between;align-items:center}.checkout-header h2{margin:0;font:normal 28px Georgia,serif}.checkout-content{display:grid;grid-template-columns:58% 42%;height:100%}.checkout-form{padding:26px 28px;overflow:auto}.summary{padding:26px 28px;background:#ecece2;overflow:auto}.summary h3{margin:10px 0 20px;font:normal 32px Georgia,serif}.field{margin-bottom:16px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input,.field select{width:100%;padding:13px;border:1px solid #d5dacf;border-radius:8px;background:#fff}.note{background:#f4f7f2;border:1px solid #e2e7df;border-radius:10px;padding:12px;font-size:12px;color:#6e7d73;line-height:1.5;margin:16px 0}.section-label{font-size:13px;font-weight:700;letter-spacing:1px;color:#53705c;margin:22px 0 10px}.choice{display:flex;gap:10px;align-items:flex-start;border:1px solid #d6dbd2;border-radius:10px;padding:13px 14px;background:#fff;margin:10px 0;font-size:14px}.sumline{display:flex;justify-content:space-between;gap:12px;margin:12px 0;font-size:14px}.divider{height:1px;background:#cfd5ca;margin:15px 0}.result{display:none;margin-top:16px;background:#e1eadf;color:#335244;padding:14px;border-radius:10px;font-size:13px}.mt8{margin-top:8px}
+@media (max-width:1060px){.navbar{grid-template-columns:1fr;justify-items:center}.mainnav{order:3}.nav-right{width:100%;justify-content:center;flex-wrap:wrap}.search-inline{min-width:min(100%,420px)}.hero{grid-template-columns:1fr}.service,.buyflow,.categories,.products,.faq-wrap,.checkout-content{grid-template-columns:1fr}.hero-copy{padding:50px 6%}.hero-art{min-height:350px}.dropdown.open{grid-template-columns:1fr}.checkout{inset:10px}}
+@media (max-width:640px){.notice{justify-content:center}.hero h1{font-size:40px}.section h2,.cta h3,.faq h3{font-size:30px}.footer{justify-content:flex-start}}
+
+/* Improved navigation, editorial content and product detail */
+html{scroll-behavior:smooth}#cambios,#contacto,#faq,#como-comprar,#productos,#categorias{scroll-margin-top:110px}
+.prod-link{display:block;color:inherit;text-decoration:none}.prod-link:hover,.story-link:hover{text-decoration:underline}.clickable{cursor:pointer}.clickable:hover{filter:brightness(.96)}.clickable:focus{outline:3px solid #789a78;outline-offset:2px}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;border-radius:22px;overflow:hidden;background:#e9e9df;min-height:340px}.story-copy{padding:46px 55px}.story-copy h2{max-width:540px}.story-copy p{max-width:520px;font-size:15px;line-height:1.75;color:#67786b}.story-badges{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}.story-badges span{font-size:12px;background:#fff;padding:8px 13px;border-radius:16px;color:#506d5b}.story-link{display:inline-block;margin-top:6px;color:#294a35;font-weight:700}.story-art{position:relative;background:linear-gradient(135deg,#d0d7c7,#f1e7d8);overflow:hidden}.story-quilt{position:absolute;width:64%;height:46%;background:#9ba995;left:19%;top:30%;border-radius:10px;transform:rotate(-8deg);box-shadow:12px 14px 20px #85958377}.story-pillow{position:absolute;width:41%;height:26%;background:#ece7d9;left:18%;top:16%;border-radius:16px;transform:rotate(-11deg);box-shadow:5px 8px 16px #9fae9a77}.story-fabric{position:absolute;width:57%;height:22%;background:repeating-linear-gradient(105deg,#e6d9c6,#e6d9c6 12px,#d5c4ae 13px,#d5c4ae 16px);left:29%;top:59%;transform:rotate(8deg);border-radius:7px;box-shadow:5px 8px 18px #8f9d8d88}
+.guide-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.guide-cards article{background:#fff;border:1px solid #e2e8df;border-radius:16px;padding:24px}.guide-cards h3{margin:10px 0 7px;font:normal 22px Georgia,serif}.guide-cards p{font-size:13px;color:#6e806f;line-height:1.7}.guide-icon{font-size:25px;color:#42674c;background:#e9efe7;width:50px;height:50px;border-radius:50%;display:grid;place-items:center}
+.detail-dialog{position:fixed;z-index:48;top:3vh;left:50%;transform:translateX(-50%);width:min(1100px,calc(100vw - 24px));height:94vh;overflow:auto;background:#fff;display:none;border-radius:15px;box-shadow:0 22px 80px #0006}.detail-dialog.open{display:block}.detail-top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e7e9e1;padding:13px 26px;font-size:11px;letter-spacing:1.4px;font-weight:700;color:#708273}.detail-columns{display:grid;grid-template-columns:51% 49%;gap:0}.detail-gallery{background:#f8f8f5;padding:28px}.detail-visual{height:320px;border-radius:13px;position:relative;overflow:hidden}.detail-visual .scene{width:100%;height:100%}.detail-visual .scene .main,.detail-visual .scene .stripe,.detail-visual .scene .top{position:absolute}.detail-photo-caption{font-size:11px;color:#899589;line-height:1.5;margin:9px 0 21px}.detail-sizes{padding:18px;background:#fff;border:1px solid #e3e9e1;border-radius:13px}.detail-sizes h3,.specifications h3{font:normal 22px Georgia,serif;margin:0 0 10px}.detail-sizes svg{width:100%;display:block;max-height:180px}.detail-sizes p{font-size:12px;color:#687e6e;line-height:1.5}.detail-body{padding:36px 35px}.detail-body h2{font:normal 37px Georgia,serif;margin:12px 0}.detail-price{font-size:24px;font-weight:700;color:#36523d}.detail-description{font-size:15px;color:#5f7165;line-height:1.7}.specifications{border-top:1px solid #e2e8df;border-bottom:1px solid #e2e8df;padding:17px 0}.specifications ul{margin:0;padding-left:19px;font-size:13px;color:#6f7e71;line-height:1.9}.detail-form{margin:18px 0}.detail-form>label{display:block;font-size:12px;font-weight:700;margin-bottom:9px}.detail-quantity{display:flex;width:125px;align-items:center;border:1px solid #d5ddd4;border-radius:8px;overflow:hidden}.detail-quantity button{background:#f4f5ef;padding:8px 12px;border:0}.detail-quantity input{width:50px;border:0;text-align:center;font-weight:700;appearance:textfield}.detail-actions{display:flex;gap:10px;flex-wrap:wrap}.detail-actions button{flex:1;min-width:155px}.detail-safe{font-size:12px;color:#667d6e;line-height:1.6;background:#f1f5ef;border-radius:9px;padding:13px;margin-top:17px}.detail-accordion details{border-top:1px solid #e8ece5;padding:13px 0;font-size:13px}.detail-accordion summary{cursor:pointer;font-weight:700}.detail-accordion p{color:#728071;line-height:1.6}
+@media(max-width:900px){.detail-columns,.story-grid,.guide-cards{grid-template-columns:1fr}.detail-dialog{top:1vh;height:98vh}.detail-gallery{padding:16px}.detail-visual{height:250px}.detail-body{padding:22px}.story-copy{padding:28px}.story-art{min-height:270px}} 
+
+/* Etapa final del checkout · confirmación visible y accesible */
+.success-screen{position:fixed;z-index:70;inset:0;background:rgba(29,43,34,.64);display:none;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px)}
+.success-screen.open{display:flex}
+.success-card{position:relative;width:min(100%,620px);max-height:94vh;overflow-y:auto;background:#fff;border-radius:22px;padding:38px 42px 32px;text-align:center;box-shadow:0 28px 100px rgba(11,31,20,.25);border:1px solid #e2e9df}
+.success-card .success-icon{margin:0 auto 14px;display:grid;place-items:center;width:78px;height:78px;border-radius:50%;background:#e9f2e7;color:#3d7152;font-size:40px;font-weight:bold}
+.success-kicker{display:inline-block;background:#eef3ea;border-radius:99px;padding:7px 13px;font-size:11px;font-weight:bold;letter-spacing:1.1px;color:#55745c}
+.success-card h2{font:normal 37px/1.16 Georgia,serif;letter-spacing:-.7px;color:#294537;margin:15px 0 11px}
+.success-lead{color:#627469;font-size:15px;line-height:1.6;margin:0 auto 20px;max-width:450px}
+.success-number{background:#f4f6f0;border:1px dashed #a6b8a5;border-radius:12px;padding:12px;font-size:13px;display:flex;gap:14px;justify-content:space-between;text-align:left}
+.success-number strong{letter-spacing:1px;color:#3d6149}
+.success-recap{padding:16px 0;border-bottom:1px solid #e0e6dc;margin:10px 0;text-align:left}
+.success-recap h3{font-size:13px;color:#4e6554;margin:8px 0 12px;text-transform:uppercase;letter-spacing:.9px}
+.success-recap p{display:flex;justify-content:space-between;gap:12px;margin:8px 0;font-size:13px;color:#5d6e62}
+.success-recap p strong{color:#2d4737;white-space:nowrap}
+.success-totals{display:flex;align-items:baseline;justify-content:space-between;gap:15px;margin:14px 0 18px;font-size:16px;text-align:left}
+.success-totals strong{font-size:22px;color:#294537}
+.success-disclaimer{padding:13px 16px;border-radius:10px;background:#f9f1e4;border:1px solid #ebddc6;color:#765934;text-align:left;font-size:12px;line-height:1.5;margin:0 0 20px}
+.success-actions{display:flex;flex-wrap:wrap;gap:12px}.success-actions button{flex:1;min-width:190px}
+@media(max-width:560px){.success-card{padding:23px 20px}.success-card h2{font-size:29px}.success-card .success-icon{width:65px;height:65px}.success-number{flex-direction:column;gap:5px}}
+
+/* ===========================================================
+   Responsive v4 · Casa Textil · escritorio / tablet / celular
+   =========================================================== */
+html { width: 100%; overflow-x: clip; }
+body { min-width: 0; max-width: 100%; overflow-x: clip; }
+body.modal-open { overflow: hidden; }
+main, header, footer, section { min-width: 0; }
+button, input, select { max-width: 100%; }
+button { touch-action: manipulation; }
+a, button, .choice, summary { -webkit-tap-highlight-color: transparent; }
+.navbar { grid-template-columns: auto minmax(0,1fr) auto; gap: clamp(10px,1.5vw,22px); padding: 14px clamp(18px,3vw,52px); }
+.brand { white-space: nowrap; font-size: clamp(19px,1.7vw,24px); }
+.mainnav { min-width: 0; gap: clamp(12px,1.5vw,22px); flex-wrap: nowrap; }
+.mainnav>a { white-space: nowrap; }
+.nav-right { min-width: 0; }
+.nav-right .search-inline { min-width: 175px; width: clamp(175px,20vw,320px); }
+.search-inline { min-width: 0; max-width: 100%; }
+.search-inline input { min-width: 0; width: 100%; }
+.cart-btn { white-space: nowrap; }
+.hero { grid-template-columns: minmax(0,54%) minmax(0,46%); }
+.hero-copy { min-width: 0; padding: 60px 6% 54px 9%; }
+.hero h1 { font-size: clamp(36px,3.5vw,50px); }
+.hero-search { min-width:0; max-width: 100%; }
+.section h2 { line-height: 1.16; }
+.products, .categories, .buyflow, .service, .guide-cards, .faq-wrap { min-width: 0; }
+.product, .cat-card, .step, .service-card { min-width: 0; }
+.prod-title { line-height: 1.5; }
+.price-row { flex-wrap: wrap; }
+.story-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+.detail-columns { grid-template-columns: minmax(0,51%) minmax(0,49%); }
+.detail-gallery, .detail-body { min-width: 0; }
+.detail-dialog { max-height: calc(100dvh - 24px); height: calc(100dvh - 24px); top: 12px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.detail-top { position: sticky; top: 0; background: white; z-index: 3; gap: 12px; }
+.detail-top span { min-width: 0; overflow-wrap: anywhere; }
+.detail-top .close, .checkout-header .close, .drawer-head .close { flex-shrink: 0; min-width: 34px; min-height: 36px; }
+.detail-sizes svg { max-width: 100%; }
+.detail-visual { height: clamp(230px,26vw,340px); }
+.detail-actions button { min-width: 0; }
+.drawer { height: 100vh; height: 100dvh; width: min(440px,100vw); }
+.drawer-head, .drawer-bottom { flex-shrink: 0; }
+.drawer-items { min-height: 0; overscroll-behavior: contain; }
+.cartline { min-width: 0; }
+.cartline .data { min-width: 0; overflow-wrap: anywhere; }
+/* Un único contenedor desplazable para todo el checkout, sin recortes */
+.checkout { inset: 4vh max(12px,calc((100vw - 1000px)/2)); height: 92vh; height: 92dvh; min-width: 0; }
+.checkout-header { flex: 0 0 auto; padding: 18px 26px; gap: 12px; }
+.checkout-header h2 { font-size: clamp(20px,2vw,28px); line-height: 1.2; }
+.checkout-content { flex: 1 1 auto; min-height: 0; height: auto; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; display:grid; grid-template-columns: minmax(0,58%) minmax(0,42%); align-items: stretch; }
+.checkout-form, .summary { min-width: 0; height: auto; overflow: visible; }
+.checkout-form { padding: 24px; }
+.summary { padding: 24px; }
+.sumline { min-width: 0; align-items: flex-start; }
+.sumline span, .sumline strong { overflow-wrap: anywhere; }
+.choice { align-items: center; }
+.choice input { flex: 0 0 auto; }
+.success-screen { padding: 16px; overscroll-behavior: contain; }
+.success-card { width: min(100%, 620px); max-height: calc(100dvh - 32px); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.success-recap p span, .success-number span { min-width: 0; overflow-wrap: anywhere; }
+.success-recap p strong { white-space: normal; text-align: right; overflow-wrap:anywhere; }
+.mobile-toggle { display: none; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--ink); padding: 11px 12px; font-size: 13px; font-weight: 700; }
+.mobile-toggle svg { width: 20px; height: 20px; }
+
+@media(max-width:1199px) {
+  .navbar { grid-template-columns: minmax(0,1fr) auto auto; grid-template-areas:'brand toggle cart' 'search search search' 'menu menu menu'; column-gap: 10px; row-gap: 12px; padding: 12px clamp(16px,3vw,32px); justify-items: stretch; }
+  .brand { grid-area: brand; align-self:center; justify-self:start; }
+  .mobile-toggle { grid-area: toggle; display:inline-flex; align-self:center; }
+  .nav-right { display: contents; }
+  .nav-right > .search-inline { grid-area: search; width: 100%; max-width: none; min-width: 0; }
+  .nav-right > .cart-btn { grid-area: cart; justify-self:end; align-self:center; }
+  .mainnav { grid-area: menu; display: none; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; width: 100%; margin: 0; padding: 6px 0 0; border-top: 1px solid var(--line); max-height: min(65dvh,500px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .mainnav.open { display: flex; }
+  .mainnav > a, .mainnav .menu-btn { display: block; width: 100%; text-align: left; padding: 13px 12px; border: none; background: transparent; border-radius: 8px; font-weight: 600; font-size: 14px; color: var(--ink); }
+  .mainnav .menu { position: static; width:100%; }
+  .mainnav .dropdown { position: static; top:auto; min-width:0; width:100%; box-shadow:none; border-radius: 12px; padding: 14px; margin-bottom: 8px; }
+  .dropdown.open { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .dropdown a { font-size: 13px; padding: 5px 0; }
+  .hero { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .hero-copy { padding: 48px 6%; }
+  .hero h1 { font-size: clamp(35px,4vw,45px); }
+  .service { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .products, .categories { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .buyflow { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .faq-wrap { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+  .checkout-content { grid-template-columns:minmax(0,58%) minmax(0,42%); }
+}
+@media(max-width:850px) {
+  .hero { grid-template-columns:1fr; }
+  .hero-copy { padding: 40px 5%; }
+  .hero-art { min-height: 320px; }
+  .buyflow, .guide-cards { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .categories { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .faq-wrap, .story-grid { grid-template-columns:1fr; }
+  .story-art { min-height:250px; }
+  .detail-columns { grid-template-columns:1fr; }
+  .detail-gallery { padding:20px; }
+  .detail-body { padding: 24px; }
+  .detail-visual { height: 280px; }
+  .checkout-content { display: flex; flex-direction: column; align-items:stretch; }
+  .checkout-form { order:1; }
+  .summary { order:0; padding:20px 24px; }
+  .summary h3 { font-size:25px; margin:6px 0 12px; }
+  .success-card { max-height: calc(100dvh - 24px); }
+}
+@media(max-width:600px) {
+  .notice { padding: 9px 14px; gap: 6px; text-align: center; flex-direction:column; align-items:center; font-size: 11px; }
+  .notice .links { justify-content: center; gap: 8px 15px; }
+  .navbar { gap: 10px; padding: 10px 14px; }
+  .brand { font-size: 18px; letter-spacing: 1.6px; }
+  .brand span { font-size:9px; letter-spacing:1.1px; }
+  .mobile-toggle { padding: 10px 9px; }
+  .mobile-toggle span { display:none; }
+  .cart-btn { padding: 10px 9px; font-size: 12px; }
+  .cart-counter { margin-left: 4px; padding: 3px 6px; }
+  .nav-right .search-inline { padding: 5px 6px 5px 10px; gap:5px; }
+  .search-inline input { font-size: 13px; }
+  .search-btn { padding: 9px 12px; }
+  .dropdown.open { grid-template-columns:1fr; }
+  .hero h1 { font-size: clamp(34px,8vw,42px); letter-spacing:-.6px; }
+  .hero h1 br { display:none; }
+  .hero-copy { padding: 34px 18px; }
+  .hero p { font-size:14px; }
+  .hero-art { min-height:220px; }
+  .hero-search { padding: 12px; }
+  .hero-search .search-inline { padding:6px 6px 6px 10px; }
+  .section { padding: 35px 16px; }
+  .section h2 { font-size: clamp(26px,7vw,32px); letter-spacing:-.6px; }
+  .section-top { margin-bottom: 18px; }
+  .service { grid-template-columns: repeat(2,minmax(0,1fr)); padding:15px; gap:10px; }
+  .service-card { padding:12px 9px; }
+  .service-card strong { font-size: 12px; }
+  .service-card small { font-size: 11px; }
+  .buyflow,.categories,.products,.guide-cards { grid-template-columns:1fr; gap:14px; }
+  .step { padding:19px; }
+  .step h3 { font-size:19px; }
+  .visual { height: 235px; }
+  .product .prod-info { padding: 18px; }
+  .story-copy { padding:24px 20px; }
+  .story-art { min-height:220px; }
+  .cta, .faq-box, .contact-box { padding:20px 18px; }
+  .footer { padding:24px 18px; }
+  /* Pantallas de compra a pantalla completa, con scroll propio */
+  .detail-dialog { position:fixed; inset:0; transform:none; width:100%; height:100vh; height:100dvh; max-height:100dvh; border-radius:0; }
+  .detail-top { padding: 12px 16px; }
+  .detail-visual { height: 215px; }
+  .detail-gallery { padding:16px; }
+  .detail-body { padding:18px 16px 26px; }
+  .detail-body h2 { font-size:30px; }
+  .detail-actions { flex-direction:column; }
+  .detail-actions button { flex:none; width:100%; min-height:46px; }
+  .checkout { position:fixed; inset:0; width:100%; height:100vh; height:100dvh; border-radius:0; }
+  .checkout-header { padding: 13px 16px; }
+  .checkout-header h2 { font-size:21px; }
+  .checkout-form,.summary { padding:20px 16px; }
+  .checkout .primary.block { padding:15px 12px; min-height:48px; }
+  .success-screen { padding:0; }
+  .success-card { width:100%; height:100vh; height:100dvh; max-height:100dvh; border:0; border-radius:0; padding:28px 20px 36px; }
+  .success-card h2 { font-size:clamp(27px,7vw,32px); }
+  .success-card .success-icon { width:68px; height:68px; }
+  .success-actions { flex-direction:column; }
+  .success-actions button { flex:none; width:100%; min-width:0; min-height:46px; }
+  .drawer-head { padding:18px 16px 14px; }
+  .drawer-items { padding:12px 16px; }
+  .drawer-bottom { padding:14px 16px max(20px,env(safe-area-inset-bottom)); }
+  .cartline { flex-wrap:wrap; }
+  .cartline .qty { margin-left:auto; }
+  .detail-sizes { padding:13px; }
+  #cambios,#contacto,#faq,#como-comprar,#productos,#categorias { scroll-margin-top: 150px; }
+}
+@media(max-width:360px) {
+  .navbar { grid-template-columns:minmax(0,1fr) auto auto; padding: 10px 9px; gap:6px; }
+  .brand { font-size:16px; letter-spacing: 1px; }
+  .brand span { font-size:8px; letter-spacing:.6px; }
+  .mobile-toggle { padding:8px; }
+  .cart-btn { font-size:0; padding:8px; }
+  .cart-btn .cart-icon, .cart-btn .cart-counter { font-size:13px; }
+  .cart-counter { margin-left:3px; }
+  .hero-copy { padding:30px 14px; }
+  .hero-search { padding:10px; }
+  .hero-search .search-inline { padding:6px; }
+  .section { padding:30px 13px; }
+  .service { padding:10px; }
+  .success-card { padding:22px 15px 28px; }
+  .success-number { flex-direction:column; gap:5px; }
+}
+
+</style>
+</head>
+<body>
+<div class="notice">
+  <div>🚚 Envíos a todo el país · Prototipo académico de ecommerce</div>
+  <div class="links">
+    <a href="#faq">Preguntas frecuentes</a>
+    <a href="#cambios">Cambios y devoluciones</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</div>
+<header class="navbar">
+  <a href="#inicio" class="brand">CASA TEXTIL<span>BLANQUERÍA & HOGAR</span></a>
+  <button class="mobile-toggle" id="mobileToggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Abrir menú de navegación" onclick="toggleMobileNav()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg><span>Menú</span></button>
+  <nav class="mainnav" id="mainNav" aria-label="Navegación principal">
+    <a href="#inicio">Inicio</a>
+    <div class="menu">
+      <button class="menu-btn" id="catBtn" onclick="toggleMenu()">Categorías ▾</button>
+      <div class="dropdown" id="catMenu">
+        <div>
+          <h4>Dormitorio</h4>
+          <a href="#productos" onclick="setFilter('sábanas')">Sábanas</a>
+          <a href="#productos" onclick="setFilter('acolchados')">Acolchados</a>
+          <a href="#productos" onclick="setFilter('mantas')">Mantas y frazadas</a>
+          <a href="#productos" onclick="setFilter('almohadas')">Almohadas y protectores</a>
+        </div>
+        <div>
+          <h4>Baño</h4>
+          <a href="#productos" onclick="setFilter('baño')">Toallas y toallones</a>
+        </div>
+        <div>
+          <h4>Hogar</h4>
+          <a href="#productos" onclick="setFilter('cortinas')">Cortinas</a>
+          <a href="#productos">Destacados</a>
+          <a href="#faq">Ayuda para comprar</a>
+        </div>
+      </div>
+    </div>
+    <a href="#como-comprar">Cómo comprar</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <div class="nav-right">
+    <div class="search-inline">
+      <input id="navSearch" type="search" placeholder="Buscar: sábanas 2 plazas, toallones, cortinas..." aria-label="Buscar productos" list="ideasBusqueda" />
+      <datalist id="ideasBusqueda"><option value="Sábanas"><option value="Acolchados"><option value="Toallas"><option value="Mantas"><option value="Cortinas"><option value="Almohadas"></datalist>
+      <button class="search-btn" onclick="searchProducts()">Buscar</button>
+    </div>
+    <button class="cart-btn" onclick="openCart()"><span class="cart-icon" aria-hidden="true">🛒</span> Mi carrito <span class="cart-counter" id="count">0</span></button>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">BLANQUERÍA PARA TODOS LOS DÍAS</div>
+      <h1>Tu casa, más linda <br/>y más cómoda.</h1>
+      <p>Una propuesta de blanquería con foco en <strong>relación calidad-precio</strong>, pensada para renovar, reponer y equipar tu hogar con una compra simple y confiable.</p>
+      <div class="hero-actions">
+        <button class="primary" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">Ver productos →</button>
+        <button class="secondary" onclick="document.getElementById('como-comprar').scrollIntoView({behavior:'smooth'})">Cómo comprar</button>
+      </div>
+      <div class="hero-search">
+        <strong>¿Qué te gustaría encontrar hoy?</strong>
+        <div class="search-inline">
+          <input id="heroSearch" type="search" placeholder="Ej: sábanas, toallas, acolchado, cortinas..." list="ideasBusqueda" aria-label="Buscar por nombre o categoría" />
+          <button class="search-btn" onclick="searchProducts('heroSearch')">Buscar</button>
+        </div>
+        <small>Buscá por nombre o categoría. Ejemplos: sábanas · acolchados · toallones · mantas · cortinas · almohadas.</small>
+      </div>
+    </div>
+    <div class="hero-art" aria-label="Ilustración de un dormitorio acogedor">
+      <div class="sun"></div><div class="window"></div><div class="headboard"></div><div class="bed-frame"></div><div class="mattress"></div><div class="duvet"></div><div class="pillow"></div><div class="pillow b"></div><div class="throw"></div>
+    </div>
+  </section>
+
+  <section class="service">
+    <article class="service-card"><span class="icon">🛏️</span><strong>Dormitorio y baño</strong><small>Productos esenciales y decorativos para distintos espacios del hogar.</small></article>
+    <article class="service-card"><span class="icon">💳</span><strong>Compra simple</strong><small>Carrito, checkout y medios de pago representados en este demo.</small></article>
+    <article class="service-card"><span class="icon">🚚</span><strong>Envíos a todo el país</strong><small>La cotización se estima según la región elegida en el checkout.</small></article>
+    <article class="service-card"><span class="icon">💬</span><strong>Soporte y confianza</strong><small>Preguntas frecuentes, cambios y contacto visibles desde el inicio.</small></article>
+  </section>
+
+  <section class="section" id="como-comprar">
+    <div class="section-top">
+      <div>
+        <div class="eyebrow">RECORRIDO DE COMPRA</div>
+        <h2>Comprar es así de simple</h2>
+        <div class="muted">Esta sección resume el flujo principal del ecommerce y destaca los pasos más importantes.</div>
+      </div>
+    </div>
+    <div class="buyflow">
+      <article class="step"><span class="n">01</span><div class="step-badge">🛍️</div><h3>Elegí tus productos</h3><p>Recorré categorías, filtrá por ambiente o buscá directamente lo que necesitás: sábanas, acolchados, toallas, cortinas y más.</p></article>
+      <article class="step"><span class="n">02</span><div class="step-badge">🚚</div><h3>Calculá el envío</h3><p>En el checkout elegís la región y visualizás un costo estimado. En una tienda real se cotizaría con código postal y operador logístico.</p></article>
+      <article class="step"><span class="n">03</span><div class="step-badge">💳</div><h3>Seleccioná cómo pagar</h3><p>El demo incluye opciones visuales de pago como Pago Nube y Mercado Pago para mostrar cómo sería la experiencia final de compra.</p></article>
+    </div>
+  </section>
+
+  <section class="section" id="categorias">
+    <div class="section-top">
+      <div>
+        <div class="eyebrow">CATEGORÍAS</div>
+        <h2>Comprá por ambiente</h2>
+        <div class="muted">Una organización simple para ayudar al usuario a encontrar más rápido lo que busca.</div>
+      </div>
+    </div>
+    <div class="categories">
+      <article class="cat-card">
+        <div class="cat-top"><h3>Dormitorio</h3><p>Para renovar la cama, sumar abrigo y mejorar el descanso.</p></div>
+        <div class="cat-list">
+          <a href="#productos" onclick="setFilter('sábanas')">Sábanas <span>→</span></a>
+          <a href="#productos" onclick="setFilter('acolchados')">Acolchados <span>→</span></a>
+          <a href="#productos" onclick="setFilter('mantas')">Mantas y frazadas <span>→</span></a>
+          <a href="#productos" onclick="setFilter('almohadas')">Almohadas y protectores <span>→</span></a>
+        </div>
+      </article>
+      <article class="cat-card">
+        <div class="cat-top"><h3>Baño</h3><p>Textiles funcionales para el uso diario y la reposición del hogar.</p></div>
+        <div class="cat-list">
+          <a href="#productos" onclick="setFilter('baño')">Toallas y toallones <span>→</span></a>
+          <a href="#productos" onclick="setFilter('todos')">Ver todos los productos <span>→</span></a>
+        </div>
+      </article>
+      <article class="cat-card">
+        <div class="cat-top"><h3>Hogar</h3><p>Complementos para vestir y completar distintos espacios.</p></div>
+        <div class="cat-list">
+          <a href="#productos" onclick="setFilter('cortinas')">Cortinas <span>→</span></a>
+          <a href="#productos" onclick="setFilter('todos')">Destacados del mes <span>→</span></a>
+          <a href="#faq">Ayuda para comprar <span>→</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="productos">
+    <div class="section-top">
+      <div>
+        <div class="eyebrow">PRODUCTOS DESTACADOS</div>
+        <h2>Textiles para renovar, reponer y equipar</h2>
+        <div class="muted">Catálogo ilustrativo con las categorías definidas para el proyecto.</div>
+      </div>
+      <div class="filterbar" id="filters">
+        <button class="chip active" data-filter="todos">Todos</button>
+        <button class="chip" data-filter="dormitorio">Dormitorio</button>
+        <button class="chip" data-filter="baño">Baño</button>
+        <button class="chip" data-filter="hogar">Hogar</button>
+      </div>
+    </div>
+    <div class="products" id="grid"></div>
+  </section>
+
+
+  <section class="section story" id="inspiracion">
+    <div class="story-grid">
+      <div class="story-copy">
+        <div class="eyebrow">IDEAS PARA TU CASA</div>
+        <h2>Un cambio simple también transforma un ambiente</h2>
+        <p>Un acolchado en un color nuevo, unas toallas que combinen con el baño o una manta a los pies de la cama pueden renovar la sensación de un espacio. Elegí según el uso, las medidas y el estilo que más te guste.</p>
+        <div class="story-badges"><span>✓ Medidas claras</span><span>✓ Materiales detallados</span><span>✓ Compra acompañada</span></div>
+        <a class="story-link" href="#productos">Explorá el catálogo ↗</a>
+      </div>
+      <div class="story-art" aria-label="Ilustración de textiles coordinados"><div class="story-pillow"></div><div class="story-quilt"></div><div class="story-fabric"></div></div>
+    </div>
+  </section>
+
+  <section class="section guide" id="guia-medidas">
+    <div class="section-top"><div><div class="eyebrow">GUÍA DE COMPRA</div><h2>Antes de elegir, revisá las medidas</h2><div class="muted">En blanquería, el tamaño importa tanto como el color. Las medidas del prototipo son referenciales.</div></div></div>
+    <div class="guide-cards">
+      <article><div class="guide-icon">↔</div><h3>Medí el ancho</h3><p>Compará el ancho del colchón con la medida de la sábana o del acolchado.</p></article>
+      <article><div class="guide-icon">↕</div><h3>Revisá el largo</h3><p>Considerá el largo del colchón o de la superficie donde irá la cortina.</p></article>
+      <article><div class="guide-icon">▣</div><h3>Considerá la altura</h3><p>Si comprás sábanas ajustables, verificá también el alto del colchón.</p></article>
+    </div>
+  </section>
+  <section class="section faq" id="faq">
+    <div class="faq-wrap">
+      <div class="faq-box">
+        <div class="eyebrow">AYUDA Y CONFIANZA</div>
+        <h3>Preguntas frecuentes</h3>
+        <details open><summary>¿Los precios y pagos son reales?</summary><p>No. Este es un prototipo académico. Los productos, precios, medios de pago y costos de envío son demostrativos para mostrar la experiencia de compra.</p></details>
+        <details><summary>¿Cómo funcionarían los cambios y devoluciones?</summary><p>En una tienda real se informaría una política visible con plazos, condiciones del producto y canales de contacto para gestionar cambios o devoluciones.</p></details>
+        <details><summary>¿Cómo se calcularía el envío?</summary><p>Lo ideal es integrar un operador logístico o una plataforma que calcule el costo según código postal, peso, volumen y modalidad de entrega.</p></details>
+        <details><summary>¿Qué medios de pago conviene ofrecer?</summary><p>Para Argentina, una opción inicial podría ser Tiendanube con Pago Nube o Mercado Pago, siempre después de validar costos y requisitos.</p></details>
+      </div>
+      <div>
+        <div class="cta" id="cambios">
+          <div class="eyebrow">CAMBIOS Y DEVOLUCIONES</div>
+          <h3>Comprá con más tranquilidad</h3>
+          <p>Mostrar esta información de forma clara ayuda a reducir objeciones en una categoría donde el cliente no puede tocar el producto antes de comprar.</p>
+          <ul>
+            <li>✔ Política visible desde la home y el checkout.</li>
+            <li>✔ Tiempos de respuesta por WhatsApp o email.</li>
+            <li>✔ Seguimiento del pedido y confirmación de compra.</li>
+          </ul>
+        </div>
+        <div class="contact-box mt8" id="contacto">
+          <div class="eyebrow">CONTACTO</div>
+          <h3 style="font:normal 28px Georgia,serif;margin:10px 0 0">¿Necesitás ayuda?</h3>
+          <p>En una implementación real, acá podrían figurar los canales de atención al cliente.</p>
+          <ul>
+            <li>WhatsApp Business</li>
+            <li>Email de atención</li>
+            <li>Instagram / Facebook</li>
+            <li>Horario de respuesta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div><strong>CASA TEXTIL</strong><p>Bienestar cotidiano, dentro de casa.</p></div>
+  <div>
+    <p><a href="#faq">Preguntas frecuentes</a> · <a href="#cambios">Cambios y devoluciones</a> · <a href="#contacto">Contacto</a></p>
+    <p><a href="#como-comprar">Cómo comprar</a> · <a href="#categorias">Categorías</a> · <a href="#productos">Productos</a></p>
+  </div>
+</footer>
+<div class="disclaimer">PROTOTIPO ACADÉMICO · Marca, productos, stock, precios y costos de envío ficticios · No procesa pagos reales.</div>
+
+<div class="veil" id="veil" onclick="closeEverything()"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-label="Carrito de compras">
+  <div class="drawer-head"><h3>Tu carrito <span id="cartNum" style="font-size:14px;color:#7a887b"></span></h3><button class="close" aria-label="Cerrar" onclick="closeEverything()">×</button></div>
+  <div class="drawer-items" id="cartItems"></div>
+  <div class="drawer-bottom">
+    <div class="totals"><span>Subtotal</span><strong id="subtotal">$ 0</strong></div>
+    <div class="fine">El envío se estima en el siguiente paso según la región de destino.</div>
+    <button class="primary block" onclick="openCheckout()">Continuar al pago →</button>
+    <button class="ghost block" onclick="closeEverything()">Seguir comprando</button>
+  </div>
+</aside>
+
+
+<section class="detail-dialog" id="productDetail" role="dialog" aria-modal="true" aria-label="Detalle del producto">
+  <div class="detail-top"><span>CASA TEXTIL · DETALLE DE PRODUCTO</span><button class="close" onclick="closeEverything()" aria-label="Cerrar detalle">×</button></div>
+  <div class="detail-columns">
+    <div class="detail-gallery">
+      <div class="detail-visual visual sheets" id="detailVisual"><div class="scene"><div class="main"></div><div class="stripe"></div><div class="top"></div><div class="top two"></div></div></div>
+      <div class="detail-photo-caption">Ilustración de referencia · Los colores y diseños finales se definirán con el catálogo real.</div>
+      <div class="detail-sizes">
+        <h3>Guía visual de medidas</h3>
+        <svg id="dimensionDiagram" viewBox="0 0 460 196" role="img" aria-label="Diagrama del producto con largo y ancho referenciales">
+          <rect x="108" y="37" width="244" height="112" rx="13" fill="#e5e9dc" stroke="#9baa9b" stroke-width="2"/>
+          <rect x="126" y="51" width="208" height="80" rx="6" fill="#d7dfd1"/>
+          <path d="M108 24v-6h244v6 M95 37h-8v112h8" fill="none" stroke="#597463" stroke-width="2"/>
+          <path d="M108 20l11 -4v8z M352 20l-11 -4v8z M89 37l-4 11h8z M89 149l-4-11h8z" fill="#597463"/>
+          <text x="230" y="13" text-anchor="middle" font-size="12" fill="#385344" id="measureWidth">ANCHO</text>
+          <text x="69" y="96" text-anchor="middle" font-size="12" fill="#385344" transform="rotate(-90,69,96)" id="measureLength">LARGO</text>
+          <text x="230" y="181" text-anchor="middle" font-size="12" fill="#597463" id="measureNote">Verificá las medidas antes de comprar</text>
+        </svg>
+        <p id="measureExplain">Las medidas que se muestran son orientativas para este ejercicio.</p>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="eyebrow" id="detailCategory">DORMITORIO</div>
+      <h2 id="detailTitle">Producto</h2>
+      <div class="detail-price" id="detailPrice"></div>
+      <p id="detailDescription" class="detail-description"></p>
+      <div class="specifications"><h3>Características</h3><ul id="detailSpecs"></ul></div>
+      <div class="detail-form"><label for="detailQuantity">Cantidad</label><div class="detail-quantity"><button onclick="modifyDetailQty(-1)" aria-label="Disminuir cantidad">−</button><input id="detailQuantity" type="number" min="1" max="20" value="1" /><button onclick="modifyDetailQty(1)" aria-label="Aumentar cantidad">+</button></div></div>
+      <div class="detail-actions"><button class="primary" onclick="addDetailToCart(false)">Agregar al carrito 🛒</button><button class="secondary" onclick="addDetailToCart(true)">Comprar ahora →</button></div>
+      <div class="detail-safe">🚚 Envío nacional: cotizalo en el siguiente paso. · 💳 Pago seguro: integración futura, demostración sin cobro.</div>
+      <div class="detail-accordion"><details open><summary>¿Cómo elijo la medida correcta?</summary><p>Revisá ancho, largo y, si corresponde, altura del colchón. En la tienda final cada producto tendrá su ficha técnica exacta.</p></details><details><summary>Envíos, cambios y devoluciones</summary><p>En la tienda real se informarán plazos, costos según código postal, políticas de cambios y canales de atención antes del pago.</p></details></div>
+    </div>
+  </div>
+</section>
+
+<section class="checkout" id="checkout" role="dialog" aria-label="Simulador de checkout">
+  <div class="checkout-header"><h2>Finalizar compra · Demo</h2><button class="close" aria-label="Cerrar" onclick="closeEverything()">×</button></div>
+  <div class="checkout-content">
+    <div class="checkout-form">
+      <div class="eyebrow">PASO 01 · DATOS Y ENTREGA</div>
+      <div class="field"><label for="mail">Correo electrónico</label><input id="mail" type="email" placeholder="tuemail@ejemplo.com" /></div>
+      <div class="field"><label for="zip">Código postal</label><input id="zip" inputmode="numeric" placeholder="Ej. 1704" /></div>
+      <div class="field"><label for="region">Región de envío</label><select id="region" onchange="updateCheckout()"><option value="amba">AMBA · envío a domicilio</option><option value="centro">Centro del país · envío a domicilio</option><option value="resto">Resto del país · envío a domicilio</option></select></div>
+      <div class="note">Los importes de envío son números ficticios para ilustrar el funcionamiento. En una tienda real deberían surgir de cotizaciones logísticas reales.</div>
+      <div class="section-label">PASO 02 · MEDIO DE PAGO (SIMULADO)</div>
+      <label class="choice"><input type="radio" name="payment" checked /> Pago Nube · tarjetas y transferencias</label>
+      <label class="choice"><input type="radio" name="payment" /> Mercado Pago · alternativas de pago</label>
+      <div class="fine">Las pasarelas solo se representan visualmente. No se solicita información bancaria ni se procesa ninguna transacción.</div>
+      <button class="primary block" onclick="completeDemo()">Simular confirmación de pedido →</button>
+      <div class="result" id="result">¡Recorrido de compra completado! Esta es una demostración sin cobro, despacho ni pedido real.</div>
+    </div>
+    <div class="summary">
+      <div class="eyebrow">RESUMEN DE TU COMPRA</div>
+      <h3>Tu selección</h3>
+      <div id="checkoutLines"></div>
+      <div class="divider"></div>
+      <div class="sumline"><span>Productos</span><strong id="checkoutSubtotal"></strong></div>
+      <div class="sumline"><span>Envío ilustrativo</span><strong id="shipping"></strong></div>
+      <div class="divider"></div>
+      <div class="sumline" style="font-size:17px;font-weight:700"><span>Total estimado</span><span id="total"></span></div>
+      <p class="fine">Precios y costos demostrativos. La configuración real dependería de la plataforma elegida y las integraciones de pago y logística.</p>
+    </div>
+  </div>
+</section>
+
+<section class="success-screen" id="successScreen" role="dialog" aria-modal="true" aria-labelledby="successHeading" aria-describedby="successLead">
+  <div class="success-card" tabindex="-1" id="successCard">
+    <div class="success-icon" aria-hidden="true">✓</div>
+    <span class="success-kicker">RECORRIDO DE COMPRA COMPLETADO · DEMO</span>
+    <h2 id="successHeading">¡Tu pedido de prueba está confirmado!</h2>
+    <p class="success-lead" id="successLead">¡Gracias por elegir Casa Textil! Llegaste al final del recorrido y pudiste revisar tus productos, envío y forma de pago.</p>
+    <div class="success-number"><span>Número de referencia ilustrativo</span><strong id="successId">DEMO-0001</strong></div>
+    <div class="success-recap" aria-label="Resumen del pedido simulado">
+      <h3>Resumen de tu pedido</h3>
+      <div id="successItems"></div>
+      <p><span>Envío de ejemplo</span><strong id="successShipping">—</strong></p>
+      <p><span>Pago elegido (simulación)</span><strong id="successPayment">—</strong></p>
+    </div>
+    <div class="success-totals"><span>Total ilustrativo</span><strong id="successTotal">$ 0</strong></div>
+    <div class="success-disclaimer"><strong>Importante:</strong> esta confirmación es solo para la preentrega de UTN. No se efectuó ningún cobro, no se envió un correo y no existe un pedido real ni un despacho asociado.</div>
+    <div class="success-actions">
+      <button class="primary" type="button" onclick="returnToStore()">Volver al inicio →</button>
+      <button class="secondary" type="button" onclick="restartDemo()">Hacer otra compra de prueba</button>
+    </div>
+  </div>
+</section>
+
+<script>
+const products=[
+  {id:1,name:'Juego de sábanas Aura',desc:'Sábanas suaves y versátiles para uso diario.',price:42900,space:'dormitorio',sub:'sábanas',visual:'sheets',tag:'PARA RENOVAR'},
+  {id:2,name:'Acolchado Nube',desc:'Acolchado protagonista para sumar confort y estilo.',price:89900,space:'dormitorio',sub:'acolchados',visual:'sheets',tag:'MÁS ELEGIDO'},
+  {id:3,name:'Set de toallas Oliva',desc:'Set funcional para baño con estética simple.',price:36900,space:'baño',sub:'toallas',visual:'towels',tag:'IDEAL PARA REPONER'},
+  {id:4,name:'Manta Serena',desc:'Manta decorativa para sumar abrigo al dormitorio.',price:29900,space:'dormitorio',sub:'mantas',visual:'blanket',tag:'PARA COMBINAR'},
+  {id:5,name:'Cortina Lino',desc:'Cortina liviana para vestir distintos espacios.',price:46900,space:'hogar',sub:'cortinas',visual:'curtains',tag:'NUEVO'},
+  {id:6,name:'Pack almohada + protector',desc:'Complemento práctico para mejorar el descanso.',price:24900,space:'dormitorio',sub:'almohadas',visual:'pillowprod',tag:'PACK PRÁCTICO'}
+];
+let selectedProductId=null;
+let cart={};
+let currentFilter='todos';
+let currentSearch='';
+const fmt=v=>'$ '+v.toLocaleString('es-AR');
+function filteredProducts(){
+  return products.filter(p=>{
+    const matchesFilter=currentFilter==='todos' || p.space===currentFilter || p.sub===currentFilter || (currentFilter==='baño' && p.space==='baño');
+    const q=currentSearch.trim().toLowerCase();
+    const matchesSearch=!q || `${p.name} ${p.desc} ${p.space} ${p.sub}`.toLowerCase().includes(q);
+    return matchesFilter && matchesSearch;
+  });
+}
+function renderProducts(){
+  const items=filteredProducts();
+  document.getElementById('grid').innerHTML = items.length ? items.map(p=>`<article class="product"><div class="visual ${p.visual} clickable" tabindex="0" role="button" aria-label="Ver detalle de ${p.name}" onclick="openProduct(${p.id})" onkeydown="if(event.key==='Enter')openProduct(${p.id})"><span class="ribbon">${p.tag}</span><div class="scene"><div class="main"></div><div class="stripe"></div><div class="top"></div><div class="top two"></div></div></div><div class="prod-info"><a href="#producto" class="prod-title prod-link" onclick="event.preventDefault();openProduct(${p.id})">${p.name}</a><div class="meta">${capitalize(p.space)} · ${capitalize(p.sub)}</div><p class="prod-desc">${p.desc}</p><div class="price-row"><span class="price">${fmt(p.price)}</span><button class="add" onclick="addToCart(${p.id})">+ Agregar</button></div></div></article>`).join('') : `<div class="contact-box" style="grid-column:1/-1"><strong>No encontramos resultados.</strong><p>Probá con otra búsqueda o volvé a “Todos”. Ejemplos: sábanas, toallas, cortinas, acolchado.</p></div>`;
+}
+function capitalize(t){return t.charAt(0).toUpperCase()+t.slice(1)}
+function setFilter(filter){currentFilter=filter;document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active',b.dataset.filter===mapChip(filter)));renderProducts();closeMenu();}
+function mapChip(filter){return ['dormitorio','baño','hogar','todos'].includes(filter)?filter:('cortinas'===filter?'hogar':'dormitorio')}
+function searchProducts(sourceId='navSearch'){
+  const q=document.getElementById(sourceId).value;
+  currentSearch=q;
+  document.getElementById('productos').scrollIntoView({behavior:'smooth'});
+  renderProducts();
+}
+function toggleMobileNav(){
+  const nav=document.getElementById('mainNav');
+  const toggle=document.getElementById('mobileToggle');
+  const expanded=nav.classList.toggle('open');
+  toggle.setAttribute('aria-expanded',String(expanded));
+  toggle.setAttribute('aria-label',expanded?'Cerrar menú de navegación':'Abrir menú de navegación');
+}
+function closeMobileNav(){
+  document.getElementById('mainNav').classList.remove('open');
+  document.getElementById('mobileToggle').setAttribute('aria-expanded','false');
+  document.getElementById('mobileToggle').setAttribute('aria-label','Abrir menú de navegación');
+}
+function syncPageLock(){
+  document.body.classList.toggle('modal-open',!!document.querySelector('.drawer.open,.checkout.open,.detail-dialog.open,.success-screen.open'));
+}
+function toggleMenu(){document.getElementById('catMenu').classList.toggle('open')}
+function closeMenu(){document.getElementById('catMenu').classList.remove('open');closeMobileNav()}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.menu')) document.getElementById('catMenu').classList.remove('open');
+  if(!e.target.closest('.navbar')) closeMobileNav();
+});
+document.querySelectorAll('#mainNav > a, #catMenu a').forEach(a=>a.addEventListener('click',closeMobileNav));
+window.addEventListener('resize',()=>{if(innerWidth>=1200)closeMobileNav()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeEverything();closeMobileNav();document.getElementById('catMenu').classList.remove('open')}});
+document.querySelectorAll('.chip').forEach(btn=>btn.addEventListener('click',()=>{currentFilter=btn.dataset.filter;document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active',b===btn));renderProducts()}));
+function addToCart(id){cart[id]=(cart[id]||0)+1;refreshCart();openCart()}
+function changeQty(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0) delete cart[id];refreshCart()}
+function sum(){return Object.entries(cart).reduce((acc,[id,q])=>acc + products.find(p=>p.id==id).price*q,0)}
+function refreshCart(){
+  const n=Object.values(cart).reduce((a,b)=>a+b,0);
+  document.getElementById('count').textContent=n;
+  document.getElementById('cartNum').textContent=`(${n})`;
+  document.getElementById('cartItems').innerHTML = n ? Object.entries(cart).map(([id,q])=>{const p=products.find(pr=>pr.id==id); return `<div class="cartline"><div class="mini">✦</div><div class="data"><b>${p.name}</b><small>${fmt(p.price)}</small></div><div class="qty"><button onclick="changeQty(${id},-1)">−</button>${q}<button onclick="changeQty(${id},1)">+</button></div></div>`}).join('') : '<p class="empty">Tu carrito está vacío. Sumá productos para comenzar.</p>';
+  document.getElementById('subtotal').textContent=fmt(sum());
+  if(document.getElementById('checkout').classList.contains('open')) updateCheckout();
+}
+function openCart(){document.getElementById('productDetail').classList.remove('open');document.getElementById('veil').classList.add('open');document.getElementById('drawer').classList.add('open');syncPageLock()}
+function closeEverything(){document.getElementById('successScreen').classList.remove('open');document.getElementById('veil').classList.remove('open');document.getElementById('drawer').classList.remove('open');document.getElementById('checkout').classList.remove('open');document.getElementById('productDetail').classList.remove('open');syncPageLock()}
+function openCheckout(){if(!Object.keys(cart).length){alert('Agregá al menos un producto');return}document.getElementById('drawer').classList.remove('open');document.getElementById('veil').classList.add('open');document.getElementById('checkout').classList.add('open');document.getElementById('result').style.display='none';updateCheckout();document.querySelector('.checkout-content').scrollTop=0;syncPageLock()}
+function updateCheckout(){const rate={amba:6900,centro:10900,resto:16900}[document.getElementById('region').value];document.getElementById('checkoutLines').innerHTML=Object.entries(cart).map(([id,q])=>{const p=products.find(pr=>pr.id==id);return `<div class="sumline"><span>${q} × ${p.name}</span><strong>${fmt(p.price*q)}</strong></div>`}).join('');document.getElementById('checkoutSubtotal').textContent=fmt(sum());document.getElementById('shipping').textContent=fmt(rate);document.getElementById('total').textContent=fmt(sum()+rate)}
+let demoOrderIndex=0;
+function completeDemo(){
+  if(!Object.keys(cart).length)return;
+  demoOrderIndex+=1;
+  const region=document.getElementById('region');
+  const rate={amba:6900,centro:10900,resto:16900}[region.value];
+  const chosen=document.querySelector('input[name="payment"]:checked');
+  const paymentName=chosen?chosen.parentElement.textContent.trim().split(' · ')[0]:'A definir';
+  document.getElementById('successId').textContent='DEMO-'+String(demoOrderIndex).padStart(4,'0');
+  document.getElementById('successItems').innerHTML=Object.entries(cart).map(([id,qty])=>{
+    const product=products.find(x=>x.id===Number(id));
+    return `<p><span>${qty} × ${product.name}</span><strong>${fmt(product.price*qty)}</strong></p>`;
+  }).join('');
+  document.getElementById('successShipping').textContent=region.options[region.selectedIndex].text+' · '+fmt(rate);
+  document.getElementById('successPayment').textContent=paymentName;
+  document.getElementById('successTotal').textContent=fmt(sum()+rate);
+  document.getElementById('checkout').classList.remove('open');
+  document.getElementById('veil').classList.remove('open');
+  document.getElementById('successScreen').classList.add('open');
+  cart={};
+  refreshCart();
+  document.getElementById('successCard').scrollTop=0;syncPageLock();document.getElementById('successCard').focus();
+}
+function returnToStore(){
+  closeEverything();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function restartDemo(){
+  returnToStore();
+  document.getElementById('productos').scrollIntoView({behavior:'smooth'});
+}
+const productSizes={
+  1:{w:'140 cm · ejemplo',l:'190 cm · ejemplo',note:'Medidas orientativas del colchón; revisar ficha real',desc:'Para sábanas ajustables, verificar también la altura del colchón. Las medidas del gráfico son solo de demostración.'},
+  2:{w:'Ancho del acolchado',l:'Largo del acolchado',note:'Los tamaños dependen del modelo seleccionado',desc:'Para una buena caída visual, compará las medidas del acolchado con las del colchón.'},
+  3:{w:'Ancho del toallón',l:'Largo del toallón',note:'Las dimensiones varían según el set',desc:'Antes de comprar, revisar medidas y cantidad de piezas incluidas en el set.'},
+  4:{w:'Ancho de manta',l:'Largo de manta',note:'Medidas del textil desplegado',desc:'Revisar el tamaño para uso decorativo o como abrigo.'},
+  5:{w:'Ancho del paño',l:'Alto del paño',note:'Revisar cantidad de paños y terminación',desc:'Para cortinas, medir ventana, alto hasta el piso y ancho de barral.'},
+  6:{w:'Ancho de almohada',l:'Largo de almohada',note:'Verificar compatibilidad del protector',desc:'Comparar el tamaño de la almohada y del protector antes de elegir.'}
+};
+function openProduct(id){
+  selectedProductId=id;
+  const p=products.find(x=>x.id===id);
+  document.getElementById('detailTitle').textContent=p.name;
+  document.getElementById('detailCategory').textContent=`${p.space.toUpperCase()} · ${p.sub.toUpperCase()}`;
+  document.getElementById('detailPrice').textContent=fmt(p.price);
+  document.getElementById('detailDescription').textContent=p.desc+' Una propuesta ilustrativa de diseño y confort para el hogar.';
+  document.getElementById('detailVisual').className=`detail-visual visual ${p.visual}`;
+  document.getElementById('detailSpecs').innerHTML=['Descripción y composición: a verificar con proveedor','Disponibilidad y variantes: demostrativas','Cuidados de lavado: según etiqueta del producto'].map(x=>`<li>${x}</li>`).join('');
+  document.getElementById('measureWidth').textContent=productSizes[id].w;
+  document.getElementById('measureLength').textContent=productSizes[id].l;
+  document.getElementById('measureNote').textContent=productSizes[id].note;
+  document.getElementById('measureExplain').textContent=productSizes[id].desc;
+  document.getElementById('detailQuantity').value=1;
+  document.getElementById('veil').classList.add('open');document.getElementById('drawer').classList.remove('open');document.getElementById('checkout').classList.remove('open');document.getElementById('productDetail').classList.add('open');document.getElementById('productDetail').scrollTop=0;syncPageLock();
+}
+function modifyDetailQty(diff){const el=document.getElementById('detailQuantity');el.value=Math.min(20,Math.max(1,(Number(el.value)||1)+diff))}
+function addDetailToCart(immediate){
+  if(!selectedProductId)return;
+  const qty=Math.min(20,Math.max(1,Number(document.getElementById('detailQuantity').value)||1));
+  cart[selectedProductId]=(cart[selectedProductId]||0)+qty;
+  refreshCart();
+  if(immediate){document.getElementById('productDetail').classList.remove('open');openCheckout()}
+  else openCart();
+}
+document.getElementById('navSearch').addEventListener('keydown',e=>{if(e.key==='Enter') searchProducts('navSearch')});
+document.getElementById('heroSearch').addEventListener('keydown',e=>{if(e.key==='Enter') searchProducts('heroSearch')});
+renderProducts();refreshCart();
+</script>
+</body>
+</html>
